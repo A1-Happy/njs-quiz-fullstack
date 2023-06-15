@@ -1,7 +1,5 @@
-import {
-  // getAllAttemptedQuizesOfUserAction,
-  getAllQuizesOfAuthorAction,
-} from "@/app/fetch";
+import // getAllAttemptedQuizesOfUserAction,
+"@/app/fetch";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 // import {
@@ -16,6 +14,47 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 // import Link from "next/link";
 // import { relativeDate } from "@/lib/utils";
 // import LogOutButton from "../../components/LogOutButton";
+import { prisma } from "@/lib/prisma";
+
+const getUserFromEmail = async (email: string) => {
+  console.log("Getting user from email: ", email);
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  console.log("user found", user);
+  return user;
+};
+
+//function to get all quizes of an author
+async function getAllQuizesOfAuthorAction(author: {
+  name: string;
+  email: string;
+  image: string;
+}) {
+  const authorId = (await getUserFromEmail(author.email))?.id;
+  console.log(authorId, author.email);
+
+  if (!authorId) {
+    console.log("User not found");
+    return null;
+  }
+
+  const quizes = await prisma.quiz.findMany({
+    where: {
+      authorId,
+    },
+    include: {
+      attempts: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+  console.log("Quizes: ", quizes);
+  return quizes;
+}
 
 export default async function ShowQuizes() {
   const author = (await getServerSession(authOptions))?.user as {
