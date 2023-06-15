@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Quiz {
+  id        Int        @id @default(autoincrement())
+  title     String
+  questions Question[]
+  attempts  Attempt[]
+  authorId  Int
+  author    User       @relation(fields: [authorId], references: [id])
+  createdAt DateTime   @default(now())
+}
+
+model Question {
+  id       Int      @id @default(autoincrement())
+  question String
+  options  Option[]
+  quiz     Quiz     @relation(fields: [quizId], references: [id])
+  quizId   Int
+}
+
+model Option {
+  id         Int      @id @default(autoincrement())
+  option     String
+  isCorrect  Boolean  @default(false)
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId Int
+  choices    Choice[]
+}
+
+model Attempt {
+  id         Int      @id @default(autoincrement())
+  quiz       Quiz     @relation(fields: [quizId], references: [id])
+  quizId     Int
+  score      Int
+  createdAt  DateTime @default(now())
+  choices    Choice[]
+  totalScore Int
+  correct    Int?
+  incorrect  Int?
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+}
+
+model Choice {
+  id        Int     @id @default(autoincrement())
+  option    Option  @relation(fields: [optionId], references: [id])
+  optionId  Int
+  attempt   Attempt @relation(fields: [attemptId], references: [id])
+  attemptId Int
+}
+
+model User {
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  name     String
+  image    String
+  quizzes  Quiz[]
+  attempts Attempt[]
+}
