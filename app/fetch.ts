@@ -108,9 +108,6 @@ export async function getAllQuizesOfAuthorAction(author: {
   image: string;
 }) {
   const authorId = (await getUserFromEmail(author.email))?.id;
-
-  console.log(await getUserFromEmail(author.email));
-
   console.log(authorId, author.email);
 
   if (!authorId) {

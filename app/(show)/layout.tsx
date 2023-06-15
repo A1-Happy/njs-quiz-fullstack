@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/auth";
 import { redirect } from "next/navigation";
 
-export default async function RootLayout({
+export default async function ShowLayout({
   children,
 }: {
   children: React.ReactNode;
