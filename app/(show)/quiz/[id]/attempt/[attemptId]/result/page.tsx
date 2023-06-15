@@ -1,4 +1,4 @@
-import { getAttemptAction, getQuizAction } from "@/app/_actions";
+import { getAttemptAction, getQuizAction } from "@/app/fetch";
 import {
   Card,
   CardContent,

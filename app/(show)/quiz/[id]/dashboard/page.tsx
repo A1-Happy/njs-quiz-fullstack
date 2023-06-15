@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllAttemptsOfQuizAction, getQuizAction } from "@/app/_actions";
+import { getAllAttemptsOfQuizAction, getQuizAction } from "@/app/fetch";
 import {
   Card,
   CardContent,

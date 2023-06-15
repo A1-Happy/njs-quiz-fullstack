@@ -1,7 +1,7 @@
 import {
   getAllAttemptedQuizesOfUserAction,
   getAllQuizesOfAuthorAction,
-} from "@/app/_actions";
+} from "@/app/fetch";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 import {
