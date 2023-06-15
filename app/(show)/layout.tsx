@@ -14,9 +14,5 @@ export default async function RootLayout({
     return redirect("/api/auth/signin");
   }
 
-  return (
-    <html lang="en">
-      <body suppressHydrationWarning={true}>{children}</body>
-    </html>
-  );
+  return <>{children}</>;
 }
