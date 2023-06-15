@@ -2,8 +2,8 @@
 //   getAllAttemptedQuizesOfUserAction,
 //   getAllQuizesOfAuthorAction,
 // } from "@/app/fetch";
-// import { getServerSession } from "next-auth";
-// import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 // import {
 //   Card,
 //   CardContent,
@@ -18,11 +18,11 @@
 // import LogOutButton from "../../components/LogOutButton";
 
 export default async function ShowQuizes() {
-  // const author = (await getServerSession(authOptions))?.user as {
-  //   name: string;
-  //   email: string;
-  //   image: string;
-  // };
+  const author = (await getServerSession(authOptions))?.user as {
+    name: string;
+    email: string;
+    image: string;
+  };
   // const quizes = await getAllQuizesOfAuthorAction(author);
   // const attempts = await getAllAttemptedQuizesOfUserAction(author);
   return (
@@ -112,6 +112,11 @@ export default async function ShowQuizes() {
     //     </Card>
     //   </div>
     // </div>
-    <div>Home page</div>
+    <div>
+      Home page
+      {author.name}
+      {author.email}
+      {author.image}
+    </div>
   );
 }
