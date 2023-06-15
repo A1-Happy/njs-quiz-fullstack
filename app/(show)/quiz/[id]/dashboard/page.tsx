@@ -22,7 +22,7 @@ export default async function QuizDashboard({
   console.log(quiz);
   const attempts = await getAllAttemptsOfQuizAction(quizId);
   console.log("attempts", attempts);
-  const attemptURL = process.env.Hosted_URL + `/quiz/${quizId}/attempt`;
+  const attemptURL = process.env.NEXTAUTH_URL + `/quiz/${quizId}/attempt`;
   return (
     <div className="text-center sm:px-20 px-10">
       <div>
