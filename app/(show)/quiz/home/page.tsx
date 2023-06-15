@@ -1,7 +1,7 @@
-// import {
-//   getAllAttemptedQuizesOfUserAction,
-//   getAllQuizesOfAuthorAction,
-// } from "@/app/fetch";
+import {
+  // getAllAttemptedQuizesOfUserAction,
+  getAllQuizesOfAuthorAction,
+} from "@/app/fetch";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 // import {
@@ -23,7 +23,7 @@ export default async function ShowQuizes() {
     email: string;
     image: string;
   };
-  // const quizes = await getAllQuizesOfAuthorAction(author);
+  const quizes = await getAllQuizesOfAuthorAction(author);
   // const attempts = await getAllAttemptedQuizesOfUserAction(author);
   return (
     // <div className="text-center mx-10">
@@ -117,6 +117,7 @@ export default async function ShowQuizes() {
       {author.name}
       {author.email}
       {author.image}
+      {quizes?.length}
     </div>
   );
 }
