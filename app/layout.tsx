@@ -16,7 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className + " dark"}>
+      <body
+        suppressHydrationWarning={true}
+        className={inter.className + " dark"}
+      >
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>

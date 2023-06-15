@@ -16,10 +16,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body>
-        {children}
-        {/* {session === undefined ? "Loading..." : session ? {children} : "Please sign in to view this page"} */}
-      </body>
+      <body suppressHydrationWarning={true}>{children}</body>
     </html>
   );
 }
