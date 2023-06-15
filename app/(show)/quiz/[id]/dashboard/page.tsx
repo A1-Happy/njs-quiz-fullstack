@@ -123,10 +123,12 @@ export default async function QuizDashboard({
               <CardContent>
                 <div className="flex flex-col gap-3 w-full">
                   {attempts.map((attempt) => (
-                    <Link href={`/quiz/${quizId}/attempt/${attempt.id}/result`}>
+                    <Link
+                      key={attempt.id}
+                      href={`/quiz/${quizId}/attempt/${attempt.id}/result`}
+                    >
                       <Button
                         variant={"outline"}
-                        key={attempt.id}
                         className="cursor-pointer w-full"
                       >
                         <div className="flex justify-between w-full">

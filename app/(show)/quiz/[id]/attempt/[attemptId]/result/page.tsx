@@ -117,7 +117,7 @@ export default async function AttemptResult({
             <CardContent>
               <ul className="flex flex-col gap-4">
                 {quiz?.questions.map((question, index) => (
-                  <div className="text-start">
+                  <div key={question.id} className="text-start">
                     <Card>
                       <CardContent>
                         <div className="mb-6"></div>
