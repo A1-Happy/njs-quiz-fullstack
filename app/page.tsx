@@ -8,11 +8,13 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const { data: session } = useSession();
   //redirect to /quiz/create
-  redirect("/quiz/home");
+  // redirect("/quiz/home");
   return (
     <div>
       {session === undefined ? (
-        <div></div>
+        <div>
+          <div>loading</div>
+        </div>
       ) : session ? (
         <CreateQuiz />
       ) : (
