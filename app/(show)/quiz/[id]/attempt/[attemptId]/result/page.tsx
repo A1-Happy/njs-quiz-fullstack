@@ -26,7 +26,7 @@ import Link from "next/link";
 export default async function AttemptResult({
   params,
 }: {
-  params: { attemptId: string; id: string };
+  params: { attemptId: string; id: number };
 }) {
   const session = await getServerSession(authOptions);
   const attemptId = parseInt(params.attemptId);

@@ -20,7 +20,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 export default async function QuizDashboard({
   params,
 }: {
-  params: { id: string };
+  params: { id: number };
 }) {
   const session = await getServerSession(authOptions);
   console.log("sesssssssion", session);

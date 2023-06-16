@@ -13,8 +13,7 @@ datasource db {
 }
 
 model Quiz {
-  id String @id @default(uuid())
-
+  id        Int        @id @default(autoincrement())
   title     String
   questions Question[]
   attempts  Attempt[]
@@ -28,7 +27,7 @@ model Question {
   question String
   options  Option[]
   quiz     Quiz     @relation(fields: [quizId], references: [id])
-  quizId   String
+  quizId   Int
 }
 
 model Option {
@@ -43,7 +42,7 @@ model Option {
 model Attempt {
   id         Int      @id @default(autoincrement())
   quiz       Quiz     @relation(fields: [quizId], references: [id])
-  quizId     String
+  quizId     Int
   score      Int
   createdAt  DateTime @default(now())
   choices    Choice[]

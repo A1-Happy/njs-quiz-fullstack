@@ -18,13 +18,11 @@ const addUser = async (user: {
 };
 
 const getUserFromEmail = async (email: string) => {
-  console.log("Getting user from email: ", email);
   const user = await prisma.user.findUnique({
     where: {
       email,
     },
   });
-  console.log("user found", user);
   return user;
 };
 
@@ -39,6 +37,8 @@ export async function createQuizAction(
   //from the User model check if the user with the given email exists
   const userFromEmail =
     (await getUserFromEmail(author.email)) || (await addUser(author));
+
+  console.log(userFromEmail);
 
   //create a new quiz
   const quiz = await prisma.quiz.create({
@@ -55,7 +55,7 @@ export async function createQuizAction(
 }
 
 export async function addQuestionAction(
-  quizId: string,
+  quizId: number,
   question: string,
   options: string[],
   correctOptionsIndexes: number[]
@@ -93,7 +93,7 @@ export async function addQuestionAction(
 }
 
 export async function createAttemptAction(
-  quizId: string,
+  quizId: number,
   //the set of option ids that the user selected
   setOfUserOptionIds: Set<number>,
   //the user

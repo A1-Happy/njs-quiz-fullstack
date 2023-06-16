@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
 
 export default function AddQuestion({ params }: { params: { id: string } }) {
-  const quizId = params.id;
+  const quizId = parseInt(params.id);
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState("");
   const [statusColor, setStatusColor] = useState("text-red-500");
