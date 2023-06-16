@@ -152,6 +152,11 @@ export default async function QuizDashboard({
                 </div>
               </CardContent>
             </Card>
+            <div className="mb-4"></div>
+            {/* Button for home page */}
+            <Link href="/quiz/home">
+              <Button variant={"outline"}>Back to home</Button>
+            </Link>
           </div>
         ) : (
           <div className="py-20">Quiz not found</div>
