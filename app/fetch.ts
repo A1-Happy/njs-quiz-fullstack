@@ -1,5 +1,3 @@
-"use server";
-
 import { prisma } from "@/lib/prisma";
 
 const getUserFromEmail = async (email: string) => {
@@ -13,7 +11,13 @@ const getUserFromEmail = async (email: string) => {
   return user;
 };
 
-export async function getQuizAction(quizId: number) {
+export async function getQuizForDashboardAction(quizId: number, email: string) {
+  console.log("quizId: ", quizId);
+  console.log("email: ", email);
+
+  //check if the email is of the author of the quiz
+  const userId = (await getUserFromEmail(email))?.id;
+
   const quiz = await prisma.quiz.findUnique({
     where: {
       id: quizId,
@@ -26,6 +30,11 @@ export async function getQuizAction(quizId: number) {
       },
     },
   });
+
+  if (quiz?.authorId !== userId) {
+    console.log("User is not the author of the quiz");
+    return null;
+  }
   console.log("Quiz: ", quiz);
   return quiz;
 }
@@ -57,15 +66,29 @@ export async function getQuizForUserAction(quizId: number) {
 }
 
 // function to get everything of an attempt
-export async function getAttemptAction(attemptId: number) {
-  const attempt = await prisma.attempt.findUnique({
+export async function getAttemptAction(attemptId: number, email: string) {
+  if (!attemptId || !email) {
+    console.log("AttemptId or email not provided");
+    return null;
+  }
+  const userId = (await getUserFromEmail(email))?.id;
+  const attempt = await prisma.attempt.findFirst({
     where: {
       id: attemptId,
     },
     include: {
       quiz: {
         include: {
-          author: true,
+          author: {
+            select: {
+              name: true,
+            },
+          },
+          questions: {
+            include: {
+              options: true,
+            },
+          },
         },
       },
       choices: {
@@ -76,7 +99,15 @@ export async function getAttemptAction(attemptId: number) {
       user: true,
     },
   });
+
+  if (attempt?.userId !== userId && attempt?.quiz.authorId !== userId) {
+    console.log("user has not attempted the quiz");
+    return null;
+  }
+
   console.log("Attempt: ", attempt);
+  //remove author from attemt
+
   return attempt;
 }
 

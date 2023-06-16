@@ -1,4 +1,5 @@
-import { getAttemptAction, getQuizAction } from "@/app/fetch";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
+import { getAttemptAction } from "@/app/fetch";
 import {
   Card,
   CardContent,
@@ -18,6 +19,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { relativeDate } from "@/lib/utils";
+import { getServerSession } from "next-auth";
 
 import Link from "next/link";
 
@@ -26,10 +28,15 @@ export default async function AttemptResult({
 }: {
   params: { attemptId: string; id: string };
 }) {
+  const session = await getServerSession(authOptions);
   const attemptId = parseInt(params.attemptId);
   const quizId = parseInt(params.id);
-  const attempt = await getAttemptAction(attemptId);
-  const quiz = await getQuizAction(quizId);
+  const attempt = await getAttemptAction(attemptId, session?.user?.email!);
+  const quiz = attempt?.quiz;
+
+  if (quiz?.id !== quizId) {
+    return <div>Unauthorised access.</div>;
+  }
 
   const userChoices = attempt?.choices.map((choice) => choice.optionId);
 

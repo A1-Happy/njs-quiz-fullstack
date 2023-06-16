@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { getAllAttemptsOfQuizAction, getQuizAction } from "@/app/fetch";
+import {
+  getAllAttemptsOfQuizAction,
+  getQuizForDashboardAction,
+} from "@/app/fetch";
 import {
   Card,
   CardContent,
@@ -11,15 +14,22 @@ import {
 import { Button } from "@/components/ui/button";
 import { relativeDate } from "@/lib/utils";
 import AttemptURLButton from "@/app/(show)/components/AttemptURLButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 
 export default async function QuizDashboard({
   params,
 }: {
   params: { id: string };
 }) {
+  const session = await getServerSession(authOptions);
+  console.log("sesssssssion", session);
   const quizId = parseInt(params.id);
-  const quiz = await getQuizAction(quizId);
-  console.log(quiz);
+  const quiz = await getQuizForDashboardAction(quizId, session?.user?.email!);
+
+  if (!quiz) {
+    return <div>You are not authorised for this action.</div>;
+  }
   const attempts = await getAllAttemptsOfQuizAction(quizId);
   console.log("attempts", attempts);
   const attemptURL = process.env.NEXTAUTH_URL + `/quiz/${quizId}/attempt`;

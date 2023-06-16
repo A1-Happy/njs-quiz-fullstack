@@ -100,6 +100,26 @@ export async function createAttemptAction(
   user: { email: string; name: string; image: string }
 ) {
   console.log("Creating attempt for quiz: ", quizId);
+
+  //get user from email
+  const userFromEmail =
+    (await getUserFromEmail(user.email)) || (await addUser(user));
+
+  //check if the user has not already attempted the quiz
+  const attempted = await prisma.attempt.findFirst({
+    where: {
+      quizId,
+      userId: {
+        equals: userFromEmail?.id,
+      },
+    },
+  });
+
+  if (attempted) {
+    console.log("Attempt already exists");
+    return null;
+  }
+
   //get set of all the options ids for the quiz
   const options = await prisma.option.findMany({
     where: {
@@ -154,10 +174,6 @@ export async function createAttemptAction(
     }
     return acc;
   }, 0);
-
-  //get user from email
-  const userFromEmail =
-    (await getUserFromEmail(user.email)) || (await addUser(user));
 
   //create attempt
   const attempt = await prisma.attempt.create({

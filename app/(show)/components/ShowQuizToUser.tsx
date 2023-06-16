@@ -27,6 +27,7 @@ export function ShowQuizToUser({
     })[];
   };
 }) {
+  const [status, setStatus] = useState("");
   const user = useSession().data?.user as {
     name: string;
     email: string;
@@ -43,6 +44,11 @@ export function ShowQuizToUser({
   const handleSubmit = async () => {
     console.log("submitting");
     const attemptId = await createAttemptAction(quiz.id, checkedBoxes, user);
+
+    if (!attemptId) {
+      setStatus("You've already made an attempt on the quiz.");
+      return;
+    }
 
     //go to page /quiz/quizId/attempt/attemptId/result
     window.location.href = `/quiz/${quiz.id}/attempt/${attemptId}/result`;
@@ -114,12 +120,11 @@ export function ShowQuizToUser({
             </CardContent>
           </Card>
         </CardContent>
-        <CardFooter>
-          {/* TODO: add submit button */}
-
+        <CardFooter className="flex flex-col gap-2">
           <Button variant={"outline"} onClick={handleSubmit}>
             Submit
           </Button>
+          <div className="text-red-500">{status}</div>
         </CardFooter>
       </Card>
     </div>
