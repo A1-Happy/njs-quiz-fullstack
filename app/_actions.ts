@@ -55,7 +55,7 @@ export async function createQuizAction(
 }
 
 export async function addQuestionAction(
-  quizId: number,
+  quizId: string,
   question: string,
   options: string[],
   correctOptionsIndexes: number[]
@@ -93,7 +93,7 @@ export async function addQuestionAction(
 }
 
 export async function createAttemptAction(
-  quizId: number,
+  quizId: string,
   //the set of option ids that the user selected
   setOfUserOptionIds: Set<number>,
   //the user

@@ -11,7 +11,7 @@ const getUserFromEmail = async (email: string) => {
   return user;
 };
 
-export async function getQuizForDashboardAction(quizId: number, email: string) {
+export async function getQuizForDashboardAction(quizId: string, email: string) {
   console.log("quizId: ", quizId);
   console.log("email: ", email);
 
@@ -39,7 +39,7 @@ export async function getQuizForDashboardAction(quizId: number, email: string) {
   return quiz;
 }
 
-export async function getQuizForUserAction(quizId: number) {
+export async function getQuizForUserAction(quizId: string) {
   const quiz = await prisma.quiz
     .findUnique({
       where: {
@@ -112,7 +112,7 @@ export async function getAttemptAction(attemptId: number, email: string) {
 }
 
 //function to get all attempts of a quiz
-export async function getAllAttemptsOfQuizAction(quizId: number) {
+export async function getAllAttemptsOfQuizAction(quizId: string) {
   const attempts = await prisma.attempt.findMany({
     where: {
       quizId,

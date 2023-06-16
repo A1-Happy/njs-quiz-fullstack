@@ -24,7 +24,7 @@ export default async function QuizDashboard({
 }) {
   const session = await getServerSession(authOptions);
   console.log("sesssssssion", session);
-  const quizId = parseInt(params.id);
+  const quizId = params.id;
   const quiz = await getQuizForDashboardAction(quizId, session?.user?.email!);
 
   if (!quiz) {
