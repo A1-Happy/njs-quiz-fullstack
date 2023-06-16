@@ -121,7 +121,7 @@ export default async function QuizDashboard({
             </CardContent>
 
             {/* card number 3 */}
-            <Card className="mx-6 mb-6">
+            <Card className="mx-6 mb-0">
               <CardHeader>
                 <CardTitle>Attempts</CardTitle>
                 <CardDescription>
@@ -153,9 +153,11 @@ export default async function QuizDashboard({
               </CardContent>
             </Card>
             {/* Button for home page */}
-            <Link href="/quiz/home" className="mb-4">
-              <Button variant={"outline"}>Back to home</Button>
-            </Link>
+            <div className="flex justify-start mx-6 mb-5">
+              <Link href="/quiz/home">
+                <Button variant={"outline"}>Back to home</Button>
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="py-20">Quiz not found</div>
