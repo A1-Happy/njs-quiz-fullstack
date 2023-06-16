@@ -1,3 +1,5 @@
+"use server";
+
 import { prisma } from "@/lib/prisma";
 
 const getUserFromEmail = async (email: string) => {
@@ -101,8 +103,8 @@ export async function getAllAttemptsOfQuizAction(quizId: number) {
   return attempts;
 }
 
-//function to get all quizes of an author
-export async function getAllQuizesOfAuthorAction(author: {
+//function to get all quizzes of an author
+export async function getAllQuizzesOfAuthorAction(author: {
   name: string;
   email: string;
   image: string;
@@ -115,7 +117,7 @@ export async function getAllQuizesOfAuthorAction(author: {
     return null;
   }
 
-  const quizes = await prisma.quiz.findMany({
+  const quizzes = await prisma.quiz.findMany({
     where: {
       authorId,
     },
@@ -126,12 +128,12 @@ export async function getAllQuizesOfAuthorAction(author: {
       createdAt: "desc",
     },
   });
-  console.log("Quizes: ", quizes);
-  return quizes;
+  console.log("Quizzes: ", quizzes);
+  return quizzes;
 }
 
-//function to get all attempted quizes of a user
-export async function getAllAttemptedQuizesOfUserAction(user: {
+//function to get all attempted quizzes of a user
+export async function getAllAttemptedQuizzesOfUserAction(user: {
   name: string;
   email: string;
   image: string;
@@ -143,7 +145,7 @@ export async function getAllAttemptedQuizesOfUserAction(user: {
     return null;
   }
 
-  const quizes = await prisma.attempt.findMany({
+  const quizzes = await prisma.attempt.findMany({
     where: {
       userId,
     },
@@ -154,6 +156,6 @@ export async function getAllAttemptedQuizesOfUserAction(user: {
       createdAt: "desc",
     },
   });
-  console.log("Quizes: ", quizes);
-  return quizes;
+  console.log("Quizzes: ", quizzes);
+  return quizzes;
 }

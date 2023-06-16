@@ -48,6 +48,9 @@ export async function createQuizAction(
     },
   });
   console.log("New quiz created: ", quiz);
+
+  //revalidate the path
+  revalidatePath(`/quiz/home`);
   return quiz;
 }
 

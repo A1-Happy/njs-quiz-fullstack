@@ -81,7 +81,7 @@ export default async function AttemptResult({
                 Correct Marks
               </TableHead>
               <TableHead className="flex-1 w-1/4 text-center">
-                Incorrect Marks
+                Negative Marks
               </TableHead>
               <TableHead className="flex-1 w-1/4 text-center">
                 Obtained Marks

@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { createQuizAction } from "@/app/_actions";
 import { useRef, useState } from "react";
 import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function CreateQuiz() {
   const author = useSession().data?.user as {
@@ -32,7 +33,7 @@ export default function CreateQuiz() {
         const quizId = newQuiz.id;
         setStatus("Quiz created successfully");
         //redirect to the quiz dashboard
-        window.location.href = `/quiz/${quizId}/dashboard`;
+        redirect(`/quiz/home`);
       }
     }
   };

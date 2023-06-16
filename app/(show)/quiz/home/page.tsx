@@ -1,6 +1,6 @@
 import {
-  getAllAttemptedQuizesOfUserAction,
-  getAllQuizesOfAuthorAction,
+  getAllAttemptedQuizzesOfUserAction,
+  getAllQuizzesOfAuthorAction,
 } from "@/app/fetch";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
@@ -17,14 +17,14 @@ import Link from "next/link";
 import { relativeDate } from "@/lib/utils";
 import LogOutButton from "../../components/LogOutButton";
 
-export default async function ShowQuizes() {
+export default async function ShowQuizzes() {
   const author = (await getServerSession(authOptions))?.user as {
     name: string;
     email: string;
     image: string;
   };
-  const quizes = await getAllQuizesOfAuthorAction(author);
-  const attempts = await getAllAttemptedQuizesOfUserAction(author);
+  const quizzes = await getAllQuizzesOfAuthorAction(author);
+  const attempts = await getAllAttemptedQuizzesOfUserAction(author);
   return (
     <div className="text-center mx-10">
       <div className="mb-28"></div>
@@ -42,14 +42,14 @@ export default async function ShowQuizes() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Quizes Created</CardTitle>
+            <CardTitle>Quizzes Created</CardTitle>
             <CardDescription>
-              This section includes the quizes created by you.
+              This section includes the quizzes created by you.
             </CardDescription>
             <CardContent className="p-0">
               <div className="flex flex-col items-center gap-2">
-                {quizes ? (
-                  quizes.map((quiz) => (
+                {quizzes ? (
+                  quizzes.map((quiz) => (
                     <Link
                       key={quiz.id}
                       href={`/quiz/${quiz.id}/dashboard`}
@@ -65,8 +65,8 @@ export default async function ShowQuizes() {
                     </Link>
                   ))
                 ) : (
-                  //show that no quizes found
-                  <div className="text-sm font-bold">No Quizes Found</div>
+                  //show that no quizzes found
+                  <div className="text-sm font-bold">No Quizzes Found</div>
                 )}
               </div>
             </CardContent>
@@ -80,9 +80,9 @@ export default async function ShowQuizes() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Quizes Attempted</CardTitle>
+            <CardTitle>Quizzes Attempted</CardTitle>
             <CardDescription>
-              This section includes the quizes attempted by you.
+              This section includes the quizzes attempted by you.
             </CardDescription>
             <CardContent className="p-0">
               <div className="flex flex-col items-center gap-2">
@@ -103,8 +103,8 @@ export default async function ShowQuizes() {
                     </Link>
                   ))
                 ) : (
-                  //show that no quizes found
-                  <div className="text-sm font-bold">No Quizes Found</div>
+                  //show that no quizzes found
+                  <div className="text-sm font-bold">No Quizzes Found</div>
                 )}
               </div>
             </CardContent>
