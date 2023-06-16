@@ -152,9 +152,8 @@ export default async function QuizDashboard({
                 </div>
               </CardContent>
             </Card>
-            <div className="mb-4"></div>
             {/* Button for home page */}
-            <Link href="/quiz/home">
+            <Link href="/quiz/home" className="mb-4">
               <Button variant={"outline"}>Back to home</Button>
             </Link>
           </div>
