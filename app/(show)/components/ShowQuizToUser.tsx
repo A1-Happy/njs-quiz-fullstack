@@ -35,14 +35,8 @@ export function ShowQuizToUser({
   };
   const [checkedBoxes, setCheckedBoxes] = useState(new Set<number>());
 
-  //on changing the checkboxes, log them
-  useEffect(() => {
-    console.log(checkedBoxes);
-  }, [checkedBoxes]);
-
   //TODO: add handleSubmit function
   const handleSubmit = async () => {
-    console.log("submitting");
     const attemptId = await createAttemptAction(quiz.id, checkedBoxes, user);
 
     if (!attemptId) {

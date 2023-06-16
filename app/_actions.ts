@@ -9,11 +9,9 @@ const addUser = async (user: {
   email: string;
   image: string;
 }) => {
-  console.log("Adding user: ", user);
   const newUser = await prisma.user.create({
     data: user,
   });
-  console.log("New user created: ", newUser);
   return newUser;
 };
 
@@ -38,8 +36,6 @@ export async function createQuizAction(
   const userFromEmail =
     (await getUserFromEmail(author.email)) || (await addUser(author));
 
-  console.log(userFromEmail);
-
   //create a new quiz
   const quiz = await prisma.quiz.create({
     data: {
@@ -47,7 +43,6 @@ export async function createQuizAction(
       authorId: userFromEmail?.id,
     },
   });
-  console.log("New quiz created: ", quiz);
 
   //revalidate the path
   revalidatePath(`/quiz/home`);
@@ -83,11 +78,8 @@ export async function addQuestionAction(
       message = "Error creating question";
       return null;
     });
-  console.log("New question created: ", newQuestion);
 
   revalidatePath(`/quiz/${quizId}/dashboard`);
-
-  console.log("Options: ", options);
 
   return { question: newQuestion, message };
 }
@@ -99,8 +91,6 @@ export async function createAttemptAction(
   //the user
   user: { email: string; name: string; image: string }
 ) {
-  console.log("Creating attempt for quiz: ", quizId);
-
   //get user from email
   const userFromEmail =
     (await getUserFromEmail(user.email)) || (await addUser(user));
@@ -116,7 +106,6 @@ export async function createAttemptAction(
   });
 
   if (attempted) {
-    console.log("Attempt already exists");
     return null;
   }
 
@@ -136,16 +125,12 @@ export async function createAttemptAction(
   //convert to set of ids
   const setOfAllOptionIds = new Set(options.map((option) => option.id));
 
-  //convert setOfAllOptionIds from list to set of ids
-  // console.log("Option ids set: ", setOfAllOptionIds);
-
   //check if the set of user option ids is a subset of the set of all option ids
   const isSubset = [...setOfUserOptionIds].every((id) =>
     setOfAllOptionIds.has(id)
   );
 
   if (!isSubset) {
-    console.log("Invalid option ids");
     return null;
   }
 
@@ -202,8 +187,6 @@ export async function createAttemptAction(
       });
     })
   );
-
-  console.log("Attempt created: ", attempt);
 
   //revalidate the quiz dashboard page
   revalidatePath(`/quiz/${quizId}/dashboard`);

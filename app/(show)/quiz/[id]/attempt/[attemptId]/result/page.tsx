@@ -26,11 +26,11 @@ import Link from "next/link";
 export default async function AttemptResult({
   params,
 }: {
-  params: { attemptId: string; id: number };
+  params: { attemptId: string; id: string };
 }) {
   const session = await getServerSession(authOptions);
   const attemptId = parseInt(params.attemptId);
-  const quizId = params.id;
+  const quizId = parseInt(params.id);
   const attempt = await getAttemptAction(attemptId, session?.user?.email!);
   const quiz = attempt?.quiz;
 

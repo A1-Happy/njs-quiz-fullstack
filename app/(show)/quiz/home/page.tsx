@@ -86,7 +86,7 @@ export default async function ShowQuizzes() {
             </CardDescription>
             <CardContent className="p-0">
               <div className="flex flex-col items-center gap-2">
-                {attempts ? (
+                {attempts && attempts.length !== 0 ? (
                   attempts.map((attempt) => (
                     <Link
                       key={attempt.id}

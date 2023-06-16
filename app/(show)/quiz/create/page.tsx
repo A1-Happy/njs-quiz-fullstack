@@ -32,6 +32,7 @@ export default function CreateQuiz() {
         const newQuiz = await createQuizAction(title, author);
         const quizId = newQuiz.id;
         setStatus("Quiz created successfully");
+        setStatusColor("text-green-500");
         //redirect to the quiz dashboard
         redirect(`/quiz/home`);
       }

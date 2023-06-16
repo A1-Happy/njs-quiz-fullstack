@@ -20,18 +20,16 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/auth";
 export default async function QuizDashboard({
   params,
 }: {
-  params: { id: number };
+  params: { id: string };
 }) {
   const session = await getServerSession(authOptions);
-  console.log("sesssssssion", session);
-  const quizId = params.id;
+  const quizId = parseInt(params.id);
   const quiz = await getQuizForDashboardAction(quizId, session?.user?.email!);
 
   if (!quiz) {
     return <div>You are not authorised for this action.</div>;
   }
   const attempts = await getAllAttemptsOfQuizAction(quizId);
-  console.log("attempts", attempts);
   const attemptURL = process.env.NEXTAUTH_URL + `/quiz/${quizId}/attempt`;
   return (
     <div className="text-center sm:px-20 px-10">
