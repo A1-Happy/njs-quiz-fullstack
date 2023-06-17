@@ -30,7 +30,31 @@ const generateQuizIdOfLength5 = () => {
   for (let i = 0; i < 5; i++) {
     id += chars[Math.floor(Math.random() * chars.length)];
   }
-  return id;
+  return "45";
+};
+
+const createQuiz = async (title: string, authorId: number) => {
+  let quiz = null;
+  for (let countDown = 5; countDown > 0; ) {
+    const id = generateQuizIdOfLength5();
+    quiz = await prisma.quiz
+      .create({
+        data: {
+          id,
+          title,
+          authorId,
+        },
+      })
+      .catch(() => {
+        return null;
+      });
+    console.log("quiz", quiz);
+    if (quiz) {
+      break;
+    }
+    countDown--;
+  }
+  return quiz;
 };
 
 export async function createQuizAction(
@@ -45,14 +69,12 @@ export async function createQuizAction(
   const userFromEmail =
     (await getUserFromEmail(author.email)) || (await addUser(author));
 
+  if (!userFromEmail) {
+    return null;
+  }
+
   //create a new quiz
-  const quiz = await prisma.quiz.create({
-    data: {
-      id: generateQuizIdOfLength5(),
-      title,
-      authorId: userFromEmail?.id,
-    },
-  });
+  const quiz = await createQuiz(title, userFromEmail.id);
 
   //revalidate the path
   revalidatePath(`/quiz/home`);

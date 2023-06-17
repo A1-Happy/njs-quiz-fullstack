@@ -2,9 +2,10 @@
 
 import { Input } from "@/components/ui/input";
 import { createQuizAction } from "@/app/_actions";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { Loader, Loader2 } from "lucide-react";
 
 export default function CreateQuiz() {
   const author = useSession().data?.user as {
@@ -16,6 +17,7 @@ export default function CreateQuiz() {
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState("");
   const [statusColor, setStatusColor] = useState("text-red-500");
+  const [creating, startCreating] = useTransition();
 
   const handleSubmit = async (data: FormData) => {
     const title = data.get("quizName");
@@ -24,13 +26,17 @@ export default function CreateQuiz() {
       setStatus("Title is required");
       return;
     } else {
-      setStatus("");
-      setStatusColor("text-green-500");
+      // setStatus("Your quiz is being generated...");
+      // setStatusColor("text-green-500");
       formRef.current?.reset();
       //call a server action to create a quiz
       if (author && author.email && author.name) {
         const newQuiz = await createQuizAction(title, author);
-        const quizId = newQuiz.id;
+        if (!newQuiz) {
+          setStatus("Error creating quiz, please try again later.");
+          setStatusColor("text-red-500");
+          return;
+        }
         setStatus("Quiz created successfully");
         setStatusColor("text-green-500");
         //redirect to the quiz dashboard
@@ -47,7 +53,9 @@ export default function CreateQuiz() {
       <div>
         <form
           ref={formRef}
-          action={handleSubmit}
+          action={(formData) => {
+            startCreating(() => handleSubmit(formData));
+          }}
           className="flex flex-col items-center  "
         >
           <label htmlFor="title" className="text-gray-700 font-bold mb-2">
@@ -58,6 +66,7 @@ export default function CreateQuiz() {
           <button type="submit">Create</button>
 
           {/* show status */}
+          {creating && <Loader className="w-4 h-4 animate-spin" />}
           <div className={statusColor}>{status}</div>
         </form>
       </div>
