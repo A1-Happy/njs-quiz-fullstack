@@ -23,7 +23,7 @@ export default async function QuizDashboard({
   params: { id: string };
 }) {
   const session = await getServerSession(authOptions);
-  const quizId = parseInt(params.id);
+  const quizId = params.id;
   const quiz = await getQuizForDashboardAction(quizId, session?.user?.email!);
 
   if (!quiz) {

@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Quiz" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "authorId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -12,7 +12,7 @@ CREATE TABLE "Quiz" (
 CREATE TABLE "Question" (
     "id" SERIAL NOT NULL,
     "question" TEXT NOT NULL,
-    "quizId" INTEGER NOT NULL,
+    "quizId" TEXT NOT NULL,
 
     CONSTRAINT "Question_pkey" PRIMARY KEY ("id")
 );
@@ -30,7 +30,7 @@ CREATE TABLE "Option" (
 -- CreateTable
 CREATE TABLE "Attempt" (
     "id" SERIAL NOT NULL,
-    "quizId" INTEGER NOT NULL,
+    "quizId" TEXT NOT NULL,
     "score" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "totalScore" INTEGER NOT NULL,

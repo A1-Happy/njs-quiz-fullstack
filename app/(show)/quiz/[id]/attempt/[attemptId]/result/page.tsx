@@ -30,7 +30,7 @@ export default async function AttemptResult({
 }) {
   const session = await getServerSession(authOptions);
   const attemptId = parseInt(params.attemptId);
-  const quizId = parseInt(params.id);
+  const quizId = params.id;
   const attempt = await getAttemptAction(attemptId, session?.user?.email!);
   const quiz = attempt?.quiz;
 

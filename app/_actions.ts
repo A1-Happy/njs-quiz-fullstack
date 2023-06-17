@@ -24,6 +24,15 @@ const getUserFromEmail = async (email: string) => {
   return user;
 };
 
+const generateQuizIdOfLength5 = () => {
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let id = "";
+  for (let i = 0; i < 5; i++) {
+    id += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return id;
+};
+
 export async function createQuizAction(
   title: string,
   author: {
@@ -39,6 +48,7 @@ export async function createQuizAction(
   //create a new quiz
   const quiz = await prisma.quiz.create({
     data: {
+      id: generateQuizIdOfLength5(),
       title,
       authorId: userFromEmail?.id,
     },
@@ -50,7 +60,7 @@ export async function createQuizAction(
 }
 
 export async function addQuestionAction(
-  quizId: number,
+  quizId: string,
   question: string,
   options: string[],
   correctOptionsIndexes: number[]
@@ -85,7 +95,7 @@ export async function addQuestionAction(
 }
 
 export async function createAttemptAction(
-  quizId: number,
+  quizId: string,
   //the set of option ids that the user selected
   setOfUserOptionIds: Set<number>,
   //the user
