@@ -30,7 +30,7 @@ const generateQuizIdOfLength5 = () => {
   for (let i = 0; i < 5; i++) {
     id += chars[Math.floor(Math.random() * chars.length)];
   }
-  return "45";
+  return id;
 };
 
 const createQuiz = async (title: string, authorId: number) => {
